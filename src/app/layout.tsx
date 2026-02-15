@@ -31,6 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#050a05" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${sinaisFont.variable} antialiased`}
       >

@@ -254,3 +254,23 @@ button:hover { background: #fff; }
   text-shadow: 0 0 5px currentColor; /* Brilho na cor do texto */
   font-size: 1.2em; /* Geralmente simbolos precisam ser um pouco maiores para ler */
 }
+
+/* Mobile adjustments */
+@media (max-width: 900px) {
+  .admin-screen, .admin-login { padding: 18px; }
+
+  .login-box { padding: 20px; width: 100%; box-sizing: border-box; }
+
+  .admin-grid { grid-template-columns: 1fr; gap: 16px; }
+
+  .admin-card { padding: 12px; }
+
+  .area-edit-grid { grid-template-columns: 1fr; gap: 12px; }
+  .area-edit-grid textarea { min-height: 160px; }
+
+  .form-row { flex-direction: column; }
+
+  button { padding: 12px 14px; font-size: 1rem; }
+
+  .admin-event-list { max-height: none; }
+}

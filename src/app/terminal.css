@@ -178,6 +178,58 @@ body {
   .header h1 { font-size: 2rem; }
   .terminal-content { width: 95%; font-size: 1.2rem; }
 }
+
+/* Melhorias específicas para mobile: permitir rolagem, ajustar espaçamentos e tamanhos */
+@media (max-width: 900px) {
+  body {
+    overflow: auto; /* permite rolagem em telas pequenas */
+    height: auto;
+  }
+
+  .crt-container {
+    padding: 20px 12px;
+    height: auto;
+    align-items: flex-start; /* comece no topo para facilitar leitura */
+  }
+
+  .terminal-content {
+    width: 100%;
+    max-width: none;
+    font-size: 1rem;
+    line-height: 1.4;
+    padding-bottom: 40px;
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .subtext { font-size: 0.9rem; margin-bottom: 18px; }
+
+  .scanlines { opacity: 0.6; background-size: 100% 6px; }
+
+  .enter-button {
+    padding: 12px 20px;
+    font-size: 1.2rem;
+  }
+
+  .skip-button {
+    top: 10px;
+    right: 10px;
+    padding: 6px 10px;
+    font-size: 1rem;
+  }
+
+  .cursor { width: 8px; height: 16px; }
+
+  .line { font-size: 1rem; }
+
+  .signal-char, .signal-char.sinais { font-size: 1rem; }
+
+  .access-area { margin-top: 30px; }
+}
 /* Botão de Pular Intro */
 .skip-button {
   position: absolute;
