@@ -8,8 +8,8 @@ export default function Home() {
   const [text, setText] = useState<string[]>([]);
   const [showButton, setShowButton] = useState(false);
   
-  // Usamos useRef para guardar o ID do intervalo e poder cancelar ele fora do useEffect
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  // Usamos useRef para guardar timeouts agendados (um por linha) e poder cancelar todos
+  const timersRef = useRef<number[]>([]);
 
   const bootSequence = [
     "INICIANDO PROTOCOLO DUGA-2...",
@@ -28,7 +28,10 @@ export default function Home() {
   // Função para pular a intro
   const skipIntro = () => {
     // 1. Para a animação
-    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (timersRef.current.length) {
+      timersRef.current.forEach((t) => clearTimeout(t));
+      timersRef.current = [];
+    }
     
     // 2. Mostra todo o texto imediatamente
     setText(bootSequence);
@@ -38,24 +41,68 @@ export default function Home() {
   };
 
   useEffect(() => {
-    let lineIndex = 0;
-    
-    // Guardamos o intervalo na referência
-    intervalRef.current = setInterval(() => {
-      if (lineIndex < bootSequence.length) {
-        setText((prev) => [...prev, bootSequence[lineIndex]]);
-        lineIndex++;
-      } else {
-        setShowButton(true);
-        if (intervalRef.current) clearInterval(intervalRef.current);
-      }
-    }, 800); 
+    // Agendamos um timeout por linha para evitar duplicação (Strict Mode remounts)
+    timersRef.current = [];
+    bootSequence.forEach((_, i) => {
+      const t = window.setTimeout(() => {
+        setText((prev) => [...prev, bootSequence[i]]);
+        if (i === bootSequence.length - 1) setShowButton(true);
+      }, i * 800);
+      timersRef.current.push(t);
+    });
 
     // Limpeza ao desmontar o componente
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      timersRef.current.forEach((t) => clearTimeout(t));
+      timersRef.current = [];
     };
   }, []);
+
+  // Componente que pisca uma letra trocando para a fonte Sinais por 1s em intervalos aleatórios
+  function SignalChar({ ch, idx }: { ch: string; idx: number }) {
+    const [active, setActive] = useState(false);
+
+    useEffect(() => {
+      let mounted = true;
+      let t1: number | undefined;
+      let t2: number | undefined;
+
+      const schedule = () => {
+        // Próximo flash em 500ms..4500ms
+        const delay = 500 + Math.random() * 4000;
+        t1 = window.setTimeout(() => {
+          if (!mounted) return;
+          setActive(true);
+          // Dura 1000ms
+          t2 = window.setTimeout(() => {
+            if (!mounted) return;
+            setActive(false);
+            schedule();
+          }, 1000);
+        }, delay);
+      };
+
+      schedule();
+
+      return () => {
+        mounted = false;
+        if (t1) clearTimeout(t1);
+        if (t2) clearTimeout(t2);
+      };
+    }, []);
+
+    return (
+      <span key={idx} className={`signal-char ${active ? 'sinais' : ''}`}>
+        {ch}
+      </span>
+    );
+  }
+
+  // Renderiza cada linha transformando caracteres em SignalChar. Protege contra valores indefinidos.
+  const renderLineChars = (line?: string) => {
+    const str = String(line ?? '');
+    return Array.from(str).map((ch, i) => <SignalChar ch={ch} idx={i} key={i} />);
+  };
 
   return (
     <main className="crt-container">
@@ -70,14 +117,14 @@ export default function Home() {
       
       <div className="terminal-content">
         <div className="header">
-          <h1>// A INTERFACE v2.0.32</h1>
+          <h1>// A INTERFACE</h1>
           <p className="subtext">Duga Radar Station - Chernobyl Exclusion Zone</p>
         </div>
 
         <div className="output-area">
           {text.map((line, index) => (
             <p key={index} className="line">
-              <span className="prompt">{'>'}</span> {line}
+              <span className="prompt">{'>'}{'\u00A0'}</span>{renderLineChars(line)}
             </p>
           ))}
           {!showButton && <span className="cursor">_</span>}
