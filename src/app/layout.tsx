@@ -20,7 +20,7 @@ const sinaisFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "mapa.tactical - Duga Radar Station",
+  title: "Duga Radar Station",
   description: "Mapa tático interativo da Zona de Exclusão de Chernobyl",
 };
 
