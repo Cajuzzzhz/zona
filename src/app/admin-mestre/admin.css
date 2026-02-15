@@ -1,0 +1,256 @@
+/* Estética de "Alerta/Root" Vermelha */
+.admin-screen, .admin-login {
+  background-color: #0a0505; /* Preto levemente avermelhado */
+  color: #ff3333;
+  font-family: 'Share Tech Mono', monospace;
+  min-height: 100vh;
+  padding: 40px;
+}
+
+.admin-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  border: 2px solid #ff3333;
+  padding: 40px;
+  background: rgba(40, 0, 0, 0.2);
+  text-align: center;
+}
+
+.login-box input {
+  background: #000;
+  border: 1px solid #ff3333;
+  color: #ff3333;
+  padding: 10px;
+  margin: 20px 0;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* Painel Principal */
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.admin-card {
+  border: 1px solid #ff3333;
+  padding: 20px;
+  background: rgba(30, 0, 0, 0.3);
+}
+
+.admin-card h2 {
+  border-bottom: 1px solid #ff3333;
+  padding-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+/* Controles de Facção */
+.faction-control {
+  margin: 20px 0;
+}
+
+.faction-control label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.faction-control input[type="range"] {
+  width: 100%;
+  accent-color: #ff3333; /* Cor do slider */
+}
+
+/* Formulário de Eventos */
+.event-form select, .event-form textarea {
+  width: 100%;
+  background: #000;
+  border: 1px solid #ff3333;
+  color: #ff3333;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-family: inherit;
+}
+
+.event-form textarea {
+  height: 100px;
+  resize: none;
+}
+
+button {
+  background: #ff3333;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover { background: #fff; }
+
+.logout-btn {
+  width: auto;
+  margin-top: 40px;
+  background: none;
+  color: #ff3333;
+  border: 1px solid #ff3333;
+}
+
+.admin-event-list {
+ max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+.admin-event-item {
+   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(255, 51, 51, 0.4);
+  background: rgba(20, 0, 0, 0.5);
+}
+
+.loc-tag {
+ background: #333;
+  color: #fff;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  margin-left: 10px;
+  border-radius: 4px;
+}
+
+.delete-btn {
+  background: transparent !important;
+  color: #ff3333 !important;
+  border: 1px solid #ff3333 !important;
+  width: auto !important;
+  padding: 5px 15px !important;
+  font-size: 0.8rem;
+}
+
+.delete-btn:hover {
+ background: #ff3333 !important;
+  color: #000 !important;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.ev-details { font-size: 0.9rem; }
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.input-text {
+  width: 100%;
+  padding: 10px;
+  background: #000;
+  border: 1px solid #ff3333;
+  color: #ff3333;
+}
+
+.input-color {
+  width: 100%;
+  height: 42px;
+  padding: 0;
+  border: 1px solid #ff3333;
+  background: none;
+  cursor: pointer;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cancel-btn {
+  background: #333;
+  color: #fff;
+  border: 1px solid #666;
+}
+
+/* Botões da Lista */
+.ev-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.edit-icon-btn, .delete-icon-btn {
+  width: 30px !important;
+  padding: 5px !important;
+  font-size: 1.2rem;
+}
+
+/* Editor de Áreas */
+.area-edit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+  border-top: 1px dashed #ff3333;
+  padding-top: 20px;
+}
+
+.area-edit-grid .full {
+  grid-column: span 2;
+}
+
+.save-area-btn {
+  grid-column: span 2;
+  background: #ff3333;
+  color: #000;
+  font-weight: bold;
+}
+.area-edit-grid .full {
+  grid-column: span 2; /* Ocupa as 2 colunas do grid */
+  display: flex;       /* Usa flexbox */
+  flex-direction: column; /* Coloca o Label EM CIMA e o Texto EMBAIXO */
+  gap: 10px;           /* Espaço entre o label e a caixa de texto */
+}
+
+/* 2. Estiliza a caixa de texto especificamente nessa área */
+.area-edit-grid textarea {
+  min-height: 300px;   /* Altura muito maior (antes devia estar uns 60px) */
+  width: 100%;         /* Garante que use 100% da largura disponível */
+  resize: vertical;    /* Permite você arrastar o cantinho para aumentar mais se quiser */
+  
+  /* Melhorias de Leitura */
+  font-size: 1rem;     
+  line-height: 1.5;    
+  padding: 15px;       
+  background-color: #050000; /* Fundo bem escuro para contraste */
+  border: 1px solid #ff3333;
+  color: #ff3333;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* 3. Aumenta o tamanho do Label para ficar mais visível */
+.area-edit-grid label {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ff3333;
+  border-bottom: 1px dashed #ff3333;
+  padding-bottom: 5px;
+  width: 100%;
+}
+.font-transmissao {
+  font-family: var(--font-sinais); /* Usa a variável que criamos no layout */
+  font-weight: normal;
+  letter-spacing: 2px;
+  color: inherit; /* Mantém a cor do evento (vermelho, verde, etc) */
+  text-shadow: 0 0 5px currentColor; /* Brilho na cor do texto */
+  font-size: 1.2em; /* Geralmente simbolos precisam ser um pouco maiores para ler */
+}

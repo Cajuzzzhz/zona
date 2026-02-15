@@ -1,0 +1,434 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+/* --- CONFIGURAÇÕES GERAIS --- */
+.map-screen {
+  background-color: #051005;
+  color: #4af626;
+  font-family: 'Share Tech Mono', monospace;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.history-sidebar {
+  position: absolute;
+  top: 0; /* Começa do topo para alinhar com o header */
+  right: -320px;
+  width: 300px;
+  height: 100vh;
+  background: rgba(0, 15, 0, 0.98);
+  border-left: 2px solid #4af626;
+  transition: right 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  padding: 80px 15px 15px 15px; /* Padding superior maior para não cobrir o header principal */
+  box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+}
+
+.history-sidebar.open {
+  right: 0; /* Desliza para dentro */
+}
+
+/* Botão de Toggle */
+.history-toggle-btn {
+  /* Removemos position absolute, top e right */
+  position: relative; 
+  background: rgba(0, 0, 0, 0.4);
+  color: #4af626;
+  border: 1px solid #4af626;
+  padding: 5px 15px;
+  font-family: 'Share Tech Mono', monospace;
+  cursor: pointer;
+  z-index: 310;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  width: 220px;
+  text-align: center;
+  
+  /* Garante que ele não estique verticalmente mais que o necessário */
+  align-self: center;
+}
+.history-toggle-btn:hover {
+  background: #4af626;
+  color: #000;
+  box-shadow: 0 0 10px #4af626;
+}
+
+.history-header {
+  border-bottom: 2px solid #4af626;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.history-header h3 { 
+  font-size: 0.9rem; 
+  margin: 0;
+  color: #4af626;
+  opacity: 0.8;
+  letter-spacing: 1px;
+}
+
+.history-list {
+  flex-grow: 1;
+  overflow-y: auto; /* Permite scroll se tiver muitos logs */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-right: 5px;
+}
+
+/* Customizando o Scrollbar para ficar Verde Hacker */
+.history-list::-webkit-scrollbar { width: 4px; }
+.history-list::-webkit-scrollbar-thumb { background: #1a5c0d; }
+
+/* Itens Individuais do Log */
+.event-log-item {
+  padding: 8px;
+  border-left: 3px solid #4af626;
+  background: rgba(74, 246, 38, 0.05);
+  animation: logSlideIn 0.3s ease-out;
+}
+
+.event-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  margin-bottom: 4px;
+  opacity: 0.8;
+}
+
+.event-msg { font-size: 0.85rem; margin: 0; line-height: 1.3; }
+
+/* --- CORES POR TIPO DE EVENTO --- */
+.type-emissao { border-color: #ff3333; background: rgba(255, 51, 51, 0.1); }
+.type-emissao .event-type { color: #ff3333; font-weight: bold; animation: blink 1s infinite; }
+
+.type-side_quest { border-color: #ffff33; background: rgba(255, 255, 51, 0.05); }
+.type-side_quest .event-type { color: #ffff33; }
+
+.type-warning { border-color: #ff9900; }
+.type-sistema { border-color: #00ccff; }
+
+@keyframes logSlideIn {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+/* --- HEADER RESPONSIVO --- */
+.map-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem; /* Ajuste o padding lateral se necessário */
+  border-bottom: 2px solid #4af626;
+  background: rgba(0, 20, 0, 0.9);
+  z-index: 300;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.map-header h1 {
+  flex-grow: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+
+@media (max-width: 600px) {
+  .map-header h1 { font-size: 0.9rem; order: 1; width: 100%; }
+  .system-status { font-size: 0.7rem; order: 2; width: 220px;text-align: left; }
+  .coords { font-size: 0.7rem; order: 3; }
+}
+
+/* --- HUD DECORATIVO --- */
+.hud-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  box-shadow: inset 0 0 100px rgba(0, 20, 0, 0.9);
+}
+
+.corner {
+  position: absolute;
+  width: 20px; height: 20px;
+  border: 2px solid #4af626;
+  opacity: 0.5;
+}
+.top-left { top: 70px; left: 10px; border-right: 0; border-bottom: 0; }
+.top-right { top: 70px; right: 10px; border-left: 0; border-bottom: 0; }
+.bottom-left { bottom: 10px; left: 10px; border-right: 0; border-top: 0; }
+.bottom-right { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+
+.coordinates-display {
+  position: absolute;
+  bottom: 15px;
+  right: 40px;
+  font-size: 0.6rem;
+  color: #1a5c0d;
+}
+
+/* --- CONTAINER DO MAPA (O PONTO CRÍTICO) --- */
+.map-container {
+  position: relative;
+  margin: auto; 
+  background-image: 
+    linear-gradient(#0f380f 1px, transparent 1px),
+    linear-gradient(90deg, #0f380f 1px, transparent 1px);
+  background-size: 5% 5%; /* Grade relativa ao tamanho do mapa */
+  border: 1px solid #1a5c0d;
+  user-select: none;
+  overflow: hidden; /* IMPORTANTE: Corta o radar se ele sair do mapa */
+  
+  /* Lógica de Quadrado Responsivo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Se a tela for deitada (Desktop/Tablet) */
+@media (orientation: landscape) {
+  .map-container {
+    height: 80vh; /* Baseia-se na altura */
+    width: 80vh;  /* Mantém 1:1 */
+    max-width: 90vw;
+  }
+}
+
+/* Se a tela for em pé (Mobile) */
+@media (orientation: portrait) {
+  .map-container {
+    width: 92vw;  /* Baseia-se na largura */
+    height: 92vw; /* Mantém 1:1 */
+    max-height: 70vh;
+  }
+}
+
+/* --- RADAR CORRIGIDO --- */
+.radar-sweep {
+  position: absolute;
+  top: 0; left: 0;
+  width: 200%; /* Maior que o mapa para cobrir tudo ao girar */
+  height: 200%;
+  /* Centraliza o ponto de rotação no meio do mapa */
+  margin-top: -50%; 
+  margin-left: -50%;
+  background: conic-gradient(
+    from 0deg, 
+    transparent 0deg, 
+    transparent 300deg, 
+    rgba(74, 246, 38, 0.1) 360deg
+  );
+  animation: radarSpin 6s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes radarSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --- PEÇAS DO MAPA --- */
+.map-piece-container {
+  position: absolute;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+  z-index: 1;
+}
+
+.area-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  filter: invert(1) sepia(1) hue-rotate(90deg) brightness(1.1) drop-shadow(0 0 5px rgba(74, 246, 38, 0.5));
+  transition: filter 0.3s ease;
+}
+
+/* Label ajustado para mobile */
+.area-label-text {
+  position: absolute;
+  padding: 2px 6px;
+  background: rgba(0, 10, 0, 0.95);
+  color: #33ff33;
+  border: 1px solid #33ff33;
+  font-size: 0.7rem;
+  text-shadow: 0 0 5px #33ff33;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 100;
+}
+
+/* Interações */
+.map-piece-container:hover { transform: scale(1.05); z-index: 10; }
+.map-piece-container:hover .area-label-text { opacity: 1; }
+.map-piece-container.active { z-index: 99 !important; transform: scale(1.1); }
+.map-piece-container.active .area-image { filter: invert(1) sepia(1) hue-rotate(90deg) brightness(1.5) drop-shadow(0 0 15px #33ff33); }
+.map-piece-container.dimmed { opacity: 0.2; filter: blur(1px); }
+
+/* --- SIDEBAR MOBILE --- */
+.info-panel {
+  position: absolute;
+  top: 80px;
+  left: 20px; /* Mudado de right para left */
+  right: auto;
+  width: 350px;
+  background: rgba(0, 10, 0, 0.95);
+  border: 2px solid #4af626;
+  padding: 20px;
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.8); /* Sombra invertida */
+  z-index: 150;
+  animation: slideInLeft 0.3s ease-out; /* Nova animação */
+}
+
+@media (min-width: 601px) {
+  .info-panel { top: 80px; right: 20px; width: 320px; }
+}
+
+@media (max-width: 600px) {
+  .info-panel {
+    left: 0;
+    width: 100%;
+    top: auto;
+    bottom: 0;
+    border-radius: 20px 20px 0 0;
+    animation: slideInUp 0.3s ease-out;
+  }
+  .history-sidebar { width: 100%; right: -100%; top: 60px; height: 40vh; border-left: none; border-bottom: 2px solid #4af626; }
+  .history-sidebar.open { right: 0; }
+  .history-toggle-btn {
+    top: auto;
+    bottom: 20px; /* No mobile fica acessível com o polegar */}
+}
+
+/* Utilitários */
+.blink { animation: blink 1.5s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes slideInLeft {
+  from { transform: translateX(-50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.scanlines {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 3px, 3px 100%;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.map-ping {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.ping-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ping-ring {
+  width: 100%;
+  height: 100%;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  animation: ping-pulse 1.5s ease-out infinite;
+}
+
+@keyframes ping-pulse {
+  0% { transform: scale(0.2); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Ajuste no Log para mostrar local */
+.event-loc {
+  display: block;
+  font-size: 0.6rem;
+  margin-top: 4px;
+  color: #1a5c0d;
+  text-transform: uppercase;
+}
+.font-transmissao {
+  font-family: var(--font-sinais); /* Usa a variável que criamos no layout */
+  font-weight: normal;
+  letter-spacing: 2px;
+  color: inherit; /* Mantém a cor do evento (vermelho, verde, etc) */
+  text-shadow: 0 0 5px currentColor; /* Brilho na cor do texto */
+  font-size: 1.2em; /* Geralmente simbolos precisam ser um pouco maiores para ler */
+}
+.map-ping {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  /* Isso garante que a cor venha do React (style={{ color: ... }}) */
+  color: inherit; 
+  z-index: 100;
+  pointer-events: none;
+}
+.audio-gate {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: #000;
+  z-index: 9999; /* Acima de TUDO */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.gate-content {
+  border: 2px solid #4af626;
+  padding: 40px;
+  background: rgba(0, 20, 0, 0.5);
+  box-shadow: 0 0 30px #4af626;
+  animation: pulse-glow 2s infinite;
+}
+
+.gate-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.gate-content button {
+  background: #4af626;
+  color: #000;
+  border: none;
+  padding: 15px 30px;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.gate-content button:hover {
+  background: #fff;
+  box-shadow: 0 0 20px #fff;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px #4af626; }
+  50% { box-shadow: 0 0 40px #4af626; }
+}

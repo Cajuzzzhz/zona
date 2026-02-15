@@ -1,0 +1,171 @@
+/* Importando uma fonte monoespaçada estilo Hacker */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* Reset básico e fundo preto */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #050a05; /* Preto levemente esverdeado */
+  color: #33ff33; /* Verde Terminal Padrão */
+  font-family: 'VT323', monospace;
+  overflow: hidden; /* Evita barras de rolagem indesejadas */
+  height: 100vh;
+}
+
+/* Container Principal */
+.crt-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Efeito de vinheta (bordas escuras da tela curva) */
+  background: radial-gradient(circle, rgba(16, 36, 16, 0) 60%, rgba(0, 0, 0, 0.9) 100%);
+}
+
+/* Área de Texto */
+.terminal-content {
+  z-index: 2; /* Fica acima das scanlines */
+  width: 80%;
+  max-width: 800px;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  text-shadow: 0 0 5px #33ff33, 0 0 10px #33ff33; /* O "Glow" do neon */
+}
+
+/* Cabeçalho */
+.header h1 {
+  font-size: 3rem;
+  margin-bottom: 0;
+  letter-spacing: 2px;
+  border-bottom: 2px solid #33ff33;
+  display: inline-block;
+  padding-right: 20px;
+}
+
+.subtext {
+  font-size: 1rem;
+  opacity: 0.7;
+  margin-top: 5px;
+  margin-bottom: 40px;
+}
+
+/* Linhas de Código */
+.line {
+  margin: 5px 0;
+  opacity: 0;
+  animation: fadeIn 0.1s forwards; /* Aparece suavemente */
+}
+
+.prompt {
+  margin-right: 10px;
+  color: #ccffcc; /* Um verde mais claro para o prompt */
+}
+
+/* Cursor Piscando */
+.cursor {
+  display: inline-block;
+  background-color: #33ff33;
+  width: 10px;
+  height: 20px;
+  animation: blink 1s step-end infinite;
+}
+
+/* Botão de Entrar */
+.access-area {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.blink-warning {
+  color: #ff3333; /* Vermelho para o aviso */
+  text-shadow: 0 0 5px #ff3333;
+  animation: blink 0.5s step-end infinite;
+  margin-bottom: 20px;
+}
+
+.enter-button {
+  display: inline-block;
+  text-decoration: none;
+  color: #000;
+  background-color: #33ff33;
+  padding: 15px 30px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  border: 2px solid #33ff33;
+  box-shadow: 0 0 15px #33ff33;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.enter-button:hover {
+  background-color: #000;
+  color: #33ff33;
+  box-shadow: 0 0 25px #33ff33, inset 0 0 10px #33ff33;
+}
+
+/* --- EFEITOS ESPECIAIS (CRT) --- */
+
+/* Scanlines (Linhas horizontais descendo) */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.2)
+  );
+  background-size: 100% 4px; /* Tamanho das linhas */
+  pointer-events: none; /* Deixa clicar no que está embaixo */
+  z-index: 10;
+  animation: scrollScanlines 10s linear infinite;
+}
+
+/* Animação para tela tremendo levemente (Glitch sutil) */
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes scrollScanlines {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+
+/* Responsividade Básica */
+@media (max-width: 600px) {
+  .header h1 { font-size: 2rem; }
+  .terminal-content { width: 95%; font-size: 1.2rem; }
+}
+/* Botão de Pular Intro */
+.skip-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  color: #33ff33; /* Mesma cor do terminal */
+  border: 1px solid #33ff33;
+  padding: 8px 15px;
+  font-family: 'VT323', monospace; /* Mesma fonte do site */
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 20; /* Fica acima das scanlines */
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.skip-button:hover {
+  background: rgba(51, 255, 51, 0.2);
+  opacity: 1;
+  box-shadow: 0 0 10px #33ff33;
+}
